@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debounce</title>
+</head>
+
+<body>
+    <input type="text" id="input_field" />
+
+    <script>
+        const inputElement = document.getElementById('input_field');
+
+        const handleKeyDown = (e) => {
+            console.log(e.target.value);
+        }
+
+        // Debouncing with Lead -> It calls the cb for first time.
+        const debounceMethod = (cb, delay, isLeading) => {
+            let timer = null;
+            return (e) => {
+                if (timer) {
+                    clearTimeout(timer);
+                } else {
+                    if (isLeading) {
+                        cb(e);
+                    }
+                }
+                timer = setTimeout(() => {
+                    clearTimeout(timer);
+                    cb(e);
+                }, delay);
+            }
+        }
+
+        const debounceInitiator = debounceMethod(handleKeyDown, 1000, true);
+
+        inputElement.addEventListener('keyup', debounceInitiator);
+
+    </script>
+</body>
+
+</html>
